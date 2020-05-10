@@ -47,7 +47,7 @@ sync~ after modifying this file!
 Expand to fullscreen on start
 
 #+BEGIN_SRC emacs-lisp
-(if (eq initial-window-system 'x) ; if started by emacs command or desktop file
+(if (eq initial-window-system 'x)
     (toggle-frame-maximized)
   (toggle-frame-fullscreen))
 #+END_SRC
@@ -184,7 +184,7 @@ Can't get this to work yet
 #+BEGIN_SRC emacs-lisp
 (+global-word-wrap-mode +1)
 #+END_SRC
-*** Treat ~_~ as a word characters
+*** Treat underscore as a word character
 #+BEGIN_SRC emacs-lisp
 ;; For elixir
 (add-hook! 'elixir-mode-hook (modify-syntax-entry ?_ "w"))
@@ -208,34 +208,30 @@ Set the base org mode directory
 #+END_SRC
 **** GTD agenda files
 #+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
-                           "~/Dropbox/org/gtd/gtd.org"
-                           "~/Dropbox/org/gtd/tickler.org")))
+(setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
+                         "~/Dropbox/org/gtd/gtd.org"
+                         "~/Dropbox/org/gtd/tickler.org"))
 #+END_SRC
 **** Refile targets
 #+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
-                             ("~/Dropbox/org/gtd/someday.org" :level . 1)
-                             ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2))))
+(setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
+                           ("~/Dropbox/org/gtd/someday.org" :level . 1)
+                           ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2)))
 #+END_SRC
 
 Allow the creation of new parent nodes while refiling. This means “allow me to
 tack new heading names onto the end of my outline path, and if I am asking to
 create new ones, make me confirm it.”
 #+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-refile-allow-creating-parent-nodes 'confirm))
+(setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 **** Diary Settings
 Set the diary file, exclude it from our agenda, and insert timestamps on creation.
 
 #+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-agenda-diary-file "~/Dropbox/org/gtd/diary.org")
-  (setq org-agenda-include-diary nil)
-  (setq org-agenda-insert-diary-extract-time t))
+(setq org-agenda-diary-file "~/Dropbox/org/gtd/diary.org")
+(setq org-agenda-include-diary nil)
+(setq org-agenda-insert-diary-extract-time t)
 #+END_SRC
 *** Visual Settings
 **** Set checkbox statistics face to orange
