@@ -222,7 +222,6 @@ Set the base org mode directory
 Allow the creation of new parent nodes while refiling. This means “allow me to
 tack new heading names onto the end of my outline path, and if I am asking to
 create new ones, make me confirm it.”
-test
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
