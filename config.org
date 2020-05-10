@@ -195,33 +195,40 @@ Can't get this to work yet
 #+END_SRC
 * Mode Config
 ** Org mode Config
-*** Org directory
+*** Directory Setup
+**** Org directory
 Set the base org mode directory
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/gtd/")
 #+END_SRC
-*** Roam directory
+**** Roam directory
 #+BEGIN_SRC emacs-lisp
 (setq org-roam-directory "~/Dropbox/org/roam")
 #+END_SRC
-*** Set checkbox statistics face to orange
-The pure red is a bit much, still need to lower the brightness though
-
+**** GTD agenda files
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (set-face-attribute 'org-checkbox-statistics-todo nil :background "#FF5722"))
+  (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
+                           "~/Dropbox/org/gtd/gtd.org"
+                           "~/Dropbox/org/gtd/tickler.org")))
 #+END_SRC
-
-*** Set done todo face to grey
-They are grey by default in Doom emacs, but somewhere, somehow, they got set to orange.
-
+**** Refile targets
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (set-face-attribute 'org-headline-done nil :foreground "grey"))
+  (setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
+                             ("~/Dropbox/org/gtd/someday.org" :level . 1)
+                             ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2))))
 #+END_SRC
 
-*** Diary Settings
+Allow the creation of new parent nodes while refiling. This means “allow me to
+tack new heading names onto the end of my outline path, and if I am asking to
+create new ones, make me confirm it.”
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-refile-allow-creating-parent-nodes 'confirm))
+#+END_SRC
+**** Diary Settings
 Set the diary file, exclude it from our agenda, and insert timestamps on creation.
 
 #+BEGIN_SRC emacs-lisp
@@ -230,14 +237,35 @@ Set the diary file, exclude it from our agenda, and insert timestamps on creatio
   (setq org-agenda-include-diary nil)
   (setq org-agenda-insert-diary-extract-time t))
 #+END_SRC
-*** GTD and Agenda Setup
-**** GTD agenda files
+*** Visual Settings
+**** Set checkbox statistics face to orange
+The pure red is a bit much, still need to lower the brightness though
+
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
-                           "~/Dropbox/org/gtd/gtd.org"
-                           "~/Dropbox/org/gtd/tickler.org")))
+  (set-face-attribute 'org-checkbox-statistics-todo nil :background "#FF5722"))
 #+END_SRC
+
+**** Set done todo face to grey
+They are grey by default in Doom emacs, but somewhere, somehow, they got set to orange.
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (set-face-attribute 'org-headline-done nil :foreground "grey"))
+#+END_SRC
+
+**** Todo Keyword Face Colors
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-todo-keyword-faces
+        (quote (("TODO" :foreground "#FF5722" :weight bold)
+                ;; ("NEXT" :foreground "#2196F3" :weight bold)
+                ("DONE" :foreground "#4CAF50" :weight bold)
+                ("WAITING" :foreground "orange" :weight bold)
+                ;; ("HOLD" :foreground "#E040FB" :weight bold)
+                ("CANCELLED" :foreground "#4CAF50" :weight bold)))))
+#+END_SRC
+*** GTD and Agenda Settings
 **** Custom agenda commands
 - This custom cmd was borrowed from [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][Nicolas Petton's GTD with emacs breakdown]]. It filters the todo list down to the first =todo= tasks tagged =@work=.
 #+BEGIN_SRC emacs-lisp
@@ -270,17 +298,6 @@ Set up our todo keyword workflow
 (after! org
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))))
 #+END_SRC
-**** Todo Keyword Face Colors
-#+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-todo-keyword-faces
-        (quote (("TODO" :foreground "#FF5722" :weight bold)
-                ;; ("NEXT" :foreground "#2196F3" :weight bold)
-                ("DONE" :foreground "#4CAF50" :weight bold)
-                ("WAITING" :foreground "orange" :weight bold)
-                ;; ("HOLD" :foreground "#E040FB" :weight bold)
-                ("CANCELLED" :foreground "#4CAF50" :weight bold)))))
-#+END_SRC
 **** Capture Templates
 #+BEGIN_SRC emacs-lisp
 (after! org
@@ -290,21 +307,6 @@ Set up our todo keyword workflow
                                 ("h" "habit" entry (file "~/Dropbox/org/gtd/inbox.org")
                                  "* TODO %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit \n:END:\n%U\n")
                                 ("n" "Note" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Notes") "* %? :NOTE:\n%U\n"))))
-#+END_SRC
-**** Refile targets
-#+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
-                             ("~/Dropbox/org/gtd/someday.org" :level . 1)
-                             ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2))))
-#+END_SRC
-
-Allow the creation of new parent nodes while refiling. This means “allow me to
-tack new heading names onto the end of my outline path, and if I am asking to
-create new ones, make me confirm it.”
-#+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-refile-allow-creating-parent-nodes 'confirm))
 #+END_SRC
 **** Remove scheduled headlines and deadlines from the agenda once they're marked done
 #+BEGIN_SRC emacs-lisp
@@ -321,6 +323,49 @@ create new ones, make me confirm it.”
 **** Set org download method
 #+BEGIN_SRC emacs-lisp
 
+#+END_SRC
+**** Super Agenda
+#+BEGIN_SRC emacs-lisp
+(after! org-agenda
+  (org-super-agenda-mode)
+
+  (setq org-agenda-custom-commands
+        '(("o" "Overview"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :todo "TODAY"
+                                  :scheduled today
+                                  :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "Todo"
+                                   :todo "TODO"
+                                   :order 1)
+                            (:name "Important"
+                                   :tag "Important"
+                                   :priority "A"
+                                   :order 6)
+                            (:name "Emacs"
+                                   :tag "Emacs"
+                                   :order 13)
+                            (:name "Projects"
+                                   :tag "Project"
+                                   :order 14)
+                            (:name "To read"
+                                   :tag "Read"
+                                   :order 30)
+                            (:name "Waiting"
+                                   :todo "WAITING"
+                                   :order 20)
+                            (:name "Trivial"
+                                   :priority<= "E"
+                                   :tag ("Trivial" "Unimportant")
+                                   :todo ("SOMEDAY" )
+                                   :order 90)
+                            (:discard (:tag ("Chore" "Routine" "Daily"))))))))))))
 #+END_SRC
 ** SQL mode config
 *** Set defaults

@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-05-10 Sun 01:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doom Emacs Configuration</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="torkable" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel='shortcut icon' type='image/png' href='https://www.gnu.org/software/emacs/favicon.png'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Doom Emacs Configuration</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0f78c09">1. Info</a>
+<ul>
+<li><a href="#orgdac1918">1.1. Enabling Literate Config Mode</a></li>
+</ul>
+</li>
+<li><a href="#org3ca7d93">2. Basic Config</a>
+<ul>
+<li><a href="#org92d9bcc">2.1. User Info</a></li>
+<li><a href="#orge918bf4">2.2. Fullscreen</a></li>
+<li><a href="#org0a048ad">2.3. Visual Settings</a>
+<ul>
+<li><a href="#orgf07aeba">2.3.1. Font</a></li>
+<li><a href="#orge6173f8">2.3.2. Theme</a></li>
+<li><a href="#org39834e0">2.3.3. Line numbers</a></li>
+<li><a href="#org0a669b4">2.3.4. Rainbow Identifiers</a></li>
+<li><a href="#org2d1744b">2.3.5. Ligatures</a></li>
+<li><a href="#org2f9f1f6">2.3.6. Custom Banner</a></li>
+</ul>
+</li>
+<li><a href="#org00d2a2c">2.4. Keybinds</a>
+<ul>
+<li><a href="#org952b3ab">2.4.1. Local leader key</a></li>
+<li><a href="#orgb94bd9a">2.4.2. Avy and surround setup</a></li>
+<li><a href="#org6ecaf6f">2.4.3. Bind newline command</a></li>
+<li><a href="#orgbaa2592">2.4.4. Rebind org agenda</a></li>
+<li><a href="#org7ae208e">2.4.5. Rebind org capture</a></li>
+</ul>
+</li>
+<li><a href="#org2543f22">2.5. Misc QoL settings</a>
+<ul>
+<li><a href="#orgc9b0b48">2.5.1. Unordered escape key sequence</a></li>
+<li><a href="#orga3981d0">2.5.2. Copy paste with middle mouse button</a></li>
+<li><a href="#org52fc3b3">2.5.3. Open magit fullscreen</a></li>
+<li><a href="#org01e0fbc">2.5.4. Global word wrap</a></li>
+<li><a href="#org9a3bdf4">2.5.5. Treat <code>_</code> as a word characters</a></li>
+<li><a href="#org102fb2a">2.5.6. VTerm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgfd46f52">3. Mode Config</a>
+<ul>
+<li><a href="#orgaf6eb72">3.1. Org mode Config</a>
+<ul>
+<li><a href="#org6aadafe">3.1.1. Directory Setup</a></li>
+<li><a href="#orgaf04524">3.1.2. Visual Settings</a></li>
+<li><a href="#org4b26ab0">3.1.3. GTD and Agenda Settings</a></li>
+</ul>
+</li>
+<li><a href="#orgb417454">3.2. SQL mode config</a>
+<ul>
+<li><a href="#orga6e47ce">3.2.1. Set defaults</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0f78c09" class="outline-2">
+<h2 id="org0f78c09"><span class="section-number-2">1</span> Info</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Here are some additional functions/macros that could help you configure Doom:<br />
+</p>
+
+<ul class="org-ul">
+<li><code>load!</code> for loading external *.el files relative to this one<br /></li>
+<li><code>use-package</code> for configuring packages<br /></li>
+<li><code>after!</code> for running code after a package has loaded<br /></li>
+<li><code>add-load-path!</code> for adding directories to the `load-path&rsquo;, relative to<br />
+this file. Emacs searches the `load-path&rsquo; when you load packages with<br />
+<code>require</code> or `use-package&rsquo;.<br /></li>
+<li><code>map!</code> for binding new keys<br /></li>
+</ul>
+
+<p>
+To get information about any of these functions/macros, move the cursor over<br />
+the highlighted symbol at press <code>K</code> (non-evil users must press <code>C-c g k</code>).<br />
+This will open documentation for it, including demos of how they are used.<br />
+</p>
+
+<p>
+You can also try <code>gd</code> (or <code>C-c g d</code>) to jump to their definition and see how<br />
+they are implemented.<br />
+</p>
+</div>
+
+<div id="outline-container-orgdac1918" class="outline-3">
+<h3 id="orgdac1918"><span class="section-number-3">1.1</span> Enabling Literate Config Mode</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>Uncomment <code>literate</code> under <code>:config</code> in <code>init.el</code><br /></li>
+<li>Create a <code>config.org</code> file (like this one) in your Doom dir<br /></li>
+<li>Run <code>bin/doom refresh</code><br /></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3ca7d93" class="outline-2">
+<h2 id="org3ca7d93"><span class="section-number-2">2</span> Basic Config</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Make this file run (slightly) faster with lexical binding (see <a href="https://nullprogram.com/blog/2016/12/22/">this blog post</a><br />
+for more info).<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #b0bec5;">;;; </span><span style="color: #b0bec5;">config.el -*- lexical-binding: t; -*-</span>
+</pre>
+</div>
+
+<p>
+Place your private configuration here! Remember, you do not need to run <code>doom
+sync</code> after modifying this file!<br />
+</p>
+</div>
+
+<div id="outline-container-org92d9bcc" class="outline-3">
+<h3 id="org92d9bcc"><span class="section-number-3">2.1</span> User Info</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">user-full-name</span> <span style="color: #9ccc65;">"torkable"</span>
+      <span style="color: #ffcc80;">user-mail-address</span> <span style="color: #9ccc65;">"jks15063@gmail.com"</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge918bf4" class="outline-3">
+<h3 id="orge918bf4"><span class="section-number-3">2.2</span> Fullscreen</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Expand to fullscreen on start<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">if</span> <span style="color: #2196F3;">(</span><span style="color: #8bc34a;">eq</span> <span style="color: #ffcc80;">initial-window-system</span> <span style="color: #fff59d;">'</span><span style="color: #c0afa7;">x</span><span style="color: #2196F3;">)</span> <span style="color: #b0bec5;">; </span><span style="color: #b0bec5;">if started by emacs command or desktop file</span>
+    <span style="color: #2196F3;">(</span><span style="color: #84ffff;">toggle-frame-maximized</span><span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span><span style="color: #84ffff;">toggle-frame-fullscreen</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a048ad" class="outline-3">
+<h3 id="org0a048ad"><span class="section-number-3">2.3</span> Visual Settings</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-orgf07aeba" class="outline-4">
+<h4 id="orgf07aeba"><span class="section-number-4">2.3.1</span> Font</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+Doom exposes five (optional) variables for controlling fonts in Doom. Here<br />
+are the three important ones:<br />
+</p>
+
+<ul class="org-ul">
+<li><code>doom-font</code><br /></li>
+<li><code>doom-variable-pitch-font</code><br /></li>
+<li><code>doom-big-font</code> &#x2013; used for <code>doom-big-font-mode</code>; use this for<br />
+presentations or streaming.<br /></li>
+</ul>
+
+<p>
+They all accept either a font-spec, font string (&ldquo;Input Mono-12&rdquo;), or xlfd<br />
+font string. You generally only need these two:<br />
+</p>
+
+<p>
+I compiled a version of <code>iosevka</code> with additional special characters to support<br />
+the <a href="#org2d1744b">Ligatures</a> added below<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">doom-font</span> <span style="color: #2196F3;">(</span><span style="color: #8bc34a;">font-spec</span> <span style="color: #ff8A65;">:family</span> <span style="color: #9ccc65;">"Iosevka"</span> <span style="color: #ff8A65;">:size</span> <span style="color: #9ccc65;">32</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge6173f8" class="outline-4">
+<h4 id="orge6173f8"><span class="section-number-4">2.3.2</span> Theme</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+Non-doom themes can be added in packages<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">doom-theme</span> <span style="color: #fff59d;">'</span><span style="color: #c0a7bd;">material</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org39834e0" class="outline-4">
+<h4 id="org39834e0"><span class="section-number-4">2.3.3</span> Line numbers</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+This determines the style of line numbers in effect. If set to `nil&rsquo;, line<br />
+numbers are disabled. For relative line numbers, set this to `relative&rsquo;.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">display-line-numbers-type</span> <span style="color: #a0d6e0;">t</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0a669b4" class="outline-4">
+<h4 id="org0a669b4"><span class="section-number-4">2.3.4</span> Rainbow Identifiers</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<p>
+Rainbow identifiers in all prog modes<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">add-hook!</span> <span style="color: #b6a0e0;">prog-mode</span> <span style="color: #fff59d;">#'</span><span style="color: #ffcc80;">rainbow-identifiers-mode</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d1744b" class="outline-4">
+<h4 id="org2d1744b"><span class="section-number-4">2.3.5</span> Ligatures</h4>
+<div class="outline-text-4" id="text-2-3-5">
+<p>
+The ligatures set for elixir mode make 0 sense. Remove the nonsense and setup a<br />
+few arrows.<br />
+</p>
+
+<p>
+Look at <code>modules/lang/elixir/config.el</code> for <code>set-pretty-symbols!</code> for list of<br />
+elixir-mode symbols.<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:def</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:in</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:for</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:lambda</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:yield</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:not-in</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:and</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">plist-delete!</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:or</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:|&gt;</span> <span style="color: #9ccc65;">#Xe142</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:-&gt;</span> <span style="color: #9ccc65;">#Xe149</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:=&gt;</span> <span style="color: #9ccc65;">#Xe161</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:&lt;-</span> <span style="color: #9ccc65;">#Xe179</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:&lt;&gt;</span> <span style="color: #9ccc65;">#Xe1c9</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:&lt;!--</span> <span style="color: #9ccc65;">#Xe10e</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #8bc34a;">plist-put</span> <span style="color: #ffcc80;">+pretty-code-symbols</span> <span style="color: #ff8A65;">:&lt;!---</span> <span style="color: #9ccc65;">#Xe10f</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2f9f1f6" class="outline-4">
+<h4 id="org2f9f1f6"><span class="section-number-4">2.3.6</span> Custom Banner</h4>
+<div class="outline-text-4" id="text-2-3-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">fancy-splash-image</span> <span style="color: #9ccc65;">"/home/jake/Pictures/doom-logo.png"</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org00d2a2c" class="outline-3">
+<h3 id="org00d2a2c"><span class="section-number-3">2.4</span> Keybinds</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org952b3ab" class="outline-4">
+<h4 id="org952b3ab"><span class="section-number-4">2.4.1</span> Local leader key</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+Set local leader key to <code>,</code><br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">doom-localleader-key</span> <span style="color: #9ccc65;">","</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb94bd9a" class="outline-4">
+<h4 id="orgb94bd9a"><span class="section-number-4">2.4.2</span> Avy and surround setup</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+For the last few years on <code>spacemacs</code>, I had moved surround to <code>S</code> and had<br />
+<code>avy-goto-char-timer</code> set to <code>s</code>. But by default, Doom emacs replaces <code>s</code> and<br />
+<code>S</code> with <code>evil snipe</code>, which is similar, but not what I want, so lets turn it<br />
+off:<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #c0a7bd;">evil-snipe</span>
+  <span style="color: #2196F3;">(</span><span style="color: #ffcc80;">evil-snipe-mode</span> <span style="color: #9ccc65;">-1</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+
+<p>
+Map <code>avy-goto-char-timer</code> to <code>s</code> and <code>avy-goto-line</code> to <code>C-;</code>:<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">evil-define-key</span> <span style="color: #fff59d;">'</span><span style="color: #2196F3;">(</span><span style="color: #a6bb99;">normal</span> <span style="color: #e0d0a0;">motion</span><span style="color: #2196F3;">)</span> <span style="color: #ffcc80;">global-map</span> <span style="color: #9ccc65;">"s"</span> <span style="color: #fff59d;">'</span><span style="color: #b6a0e0;">avy-goto-char-timer</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">evil-define-key</span> <span style="color: #fff59d;">'</span><span style="color: #2196F3;">(</span><span style="color: #b3c0a7;">visual</span> <span style="color: #e0d0a0;">operator</span><span style="color: #2196F3;">)</span> <span style="color: #ffcc80;">evil-surround-mode-map</span> <span style="color: #9ccc65;">"s"</span> <span style="color: #fff59d;">'</span><span style="color: #b6a0e0;">avy-goto-char-timer</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">evil-define-key</span> <span style="color: #fff59d;">'</span><span style="color: #2196F3;">(</span><span style="color: #a6bb99;">normal</span> <span style="color: #e0d0a0;">motion</span> <span style="color: #b3c0a7;">visual</span> <span style="color: #e0d0a0;">operator</span><span style="color: #2196F3;">)</span> <span style="color: #ffcc80;">global-map</span> <span style="color: #2196F3;">(</span><span style="color: #84ffff;">kbd</span> <span style="color: #9ccc65;">"C-;"</span><span style="color: #2196F3;">)</span> <span style="color: #fff59d;">'</span><span style="color: #e0a0bc;">avy-goto-line</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+
+<p>
+And move surround to <code>S</code>:<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">evil-define-key</span> <span style="color: #fff59d;">'</span><span style="color: #e0d0a0;">operator</span> <span style="color: #ffcc80;">evil-surround-mode-map</span> <span style="color: #9ccc65;">"S"</span> <span style="color: #fff59d;">'</span><span style="color: #bb99b4;">evil-surround-edit</span><span style="color: #e91e63;">)</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">evil-define-key</span> <span style="color: #fff59d;">'</span><span style="color: #b3c0a7;">visual</span> <span style="color: #ffcc80;">evil-surround-mode-map</span> <span style="color: #9ccc65;">"S"</span> <span style="color: #fff59d;">'</span><span style="color: #c0a7bd;">evil-surround-region</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6ecaf6f" class="outline-4">
+<h4 id="org6ecaf6f"><span class="section-number-4">2.4.3</span> Bind newline command</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">map!</span> <span style="color: #ff8A65;">:leader</span> <span style="color: #9ccc65;">"j n"</span> <span style="color: #fff59d;">#'</span><span style="color: #e0d0a0;">sp-newline</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbaa2592" class="outline-4">
+<h4 id="orgbaa2592"><span class="section-number-4">2.4.4</span> Rebind org agenda</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<p>
+The default sub-group is completely redundant, all the cmds are already<br />
+available on the agenda.<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">map!</span> <span style="color: #ff8A65;">:leader</span> <span style="color: #9ccc65;">"o a"</span> <span style="color: #fff59d;">#'</span><span style="color: #99bbb4;">org-agenda</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7ae208e" class="outline-4">
+<h4 id="org7ae208e"><span class="section-number-4">2.4.5</span> Rebind org capture</h4>
+<div class="outline-text-4" id="text-2-4-5">
+<p>
+By default on <code>SPC X</code>, going to overwrite <code>SPC x</code> because I never use the<br />
+scratch buffer.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">map!</span> <span style="color: #ff8A65;">:leader</span> <span style="color: #9ccc65;">"x"</span> <span style="color: #fff59d;">#'</span><span style="color: #a6bb99;">org-capture</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2543f22" class="outline-3">
+<h3 id="org2543f22"><span class="section-number-3">2.5</span> Misc QoL settings</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-orgc9b0b48" class="outline-4">
+<h4 id="orgc9b0b48"><span class="section-number-4">2.5.1</span> Unordered escape key sequence</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+So I can just mash <code>jk</code> without thinking<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">evil-escape-unordered-key-sequence</span> <span style="color: #a0d6e0;">t</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga3981d0" class="outline-4">
+<h4 id="orga3981d0"><span class="section-number-4">2.5.2</span> Copy paste with middle mouse button</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">xterm-mouse-mode</span> <span style="color: #9ccc65;">-1</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org52fc3b3" class="outline-4">
+<h4 id="org52fc3b3"><span class="section-number-4">2.5.3</span> Open magit fullscreen</h4>
+<div class="outline-text-4" id="text-2-5-3">
+<p>
+Can&rsquo;t get this to work yet<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #b0bec5;">;; </span><span style="color: #b0bec5;">(after! magit</span>
+<span style="color: #b0bec5;">;;   </span><span style="color: #b0bec5;">(setq-default git-magit-status-fullscreen t))</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org01e0fbc" class="outline-4">
+<h4 id="org01e0fbc"><span class="section-number-4">2.5.4</span> Global word wrap</h4>
+<div class="outline-text-4" id="text-2-5-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #ffcc80;">+global-word-wrap-mode</span> <span style="color: #9ccc65;">+1</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a3bdf4" class="outline-4">
+<h4 id="org9a3bdf4"><span class="section-number-4">2.5.5</span> Treat <code>_</code> as a word characters</h4>
+<div class="outline-text-4" id="text-2-5-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #b0bec5;">;; </span><span style="color: #b0bec5;">For elixir</span>
+<span style="color: #e91e63;">(</span><span style="color: #fff59d;">add-hook!</span> <span style="color: #fff59d;">'</span><span style="color: #99bbb4;">elixir-mode-hook</span> <span style="color: #2196F3;">(</span><span style="color: #8bc34a;">modify-syntax-entry</span> <span style="color: #e0d0a0;">?_</span> <span style="color: #9ccc65;">"w"</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org102fb2a" class="outline-4">
+<h4 id="org102fb2a"><span class="section-number-4">2.5.6</span> VTerm</h4>
+<div class="outline-text-4" id="text-2-5-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #c0a7bd;">vterm-module-cmake-args</span> <span style="color: #9ccc65;">"-DUSE_SYSTEM_LIBVTERM=yes"</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd46f52" class="outline-2">
+<h2 id="orgfd46f52"><span class="section-number-2">3</span> Mode Config</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgaf6eb72" class="outline-3">
+<h3 id="orgaf6eb72"><span class="section-number-3">3.1</span> Org mode Config</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org6aadafe" class="outline-4">
+<h4 id="org6aadafe"><span class="section-number-4">3.1.1</span> Directory Setup</h4>
+<div class="outline-text-4" id="text-3-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org54c8f21"></a>Org directory<br />
+<div class="outline-text-5" id="text-3-1-1-1">
+<p>
+Set the base org mode directory<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-directory</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/"</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8e0cc9c"></a>Roam directory<br />
+<div class="outline-text-5" id="text-3-1-1-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-roam-directory</span> <span style="color: #9ccc65;">"~/Dropbox/org/roam"</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgc851104"></a>GTD agenda files<br />
+<div class="outline-text-5" id="text-3-1-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-files</span> <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #9ccc65;">"~/Dropbox/org/gtd/inbox.org"</span>
+                           <span style="color: #9ccc65;">"~/Dropbox/org/gtd/gtd.org"</span>
+                           <span style="color: #9ccc65;">"~/Dropbox/org/gtd/tickler.org"</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orga459d8d"></a>Refile targets<br />
+<div class="outline-text-5" id="text-3-1-1-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-refile-targets</span> <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"~/Dropbox/org/gtd/gtd.org"</span> <span style="color: #ff8A65;">:maxlevel</span> <span style="color: #b3c0a7;">.</span> <span style="color: #9ccc65;">3</span><span style="color: #e91e63;">)</span>
+                             <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"~/Dropbox/org/gtd/someday.org"</span> <span style="color: #ff8A65;">:level</span> <span style="color: #b3c0a7;">.</span> <span style="color: #9ccc65;">1</span><span style="color: #e91e63;">)</span>
+                             <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"~/Dropbox/org/gtd/tickler.org"</span> <span style="color: #ff8A65;">:maxlevel</span> <span style="color: #b3c0a7;">.</span> <span style="color: #9ccc65;">2</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+
+<p>
+Allow the creation of new parent nodes while refiling. This means “allow me to<br />
+tack new heading names onto the end of my outline path, and if I am asking to<br />
+create new ones, make me confirm it.”<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-refile-allow-creating-parent-nodes</span> <span style="color: #fff59d;">'</span><span style="color: #b6a0e0;">confirm</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgeb613cf"></a>Diary Settings<br />
+<div class="outline-text-5" id="text-3-1-1-5">
+<p>
+Set the diary file, exclude it from our agenda, and insert timestamps on creation.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-diary-file</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/diary.org"</span><span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-include-diary</span> <span style="color: #bb99b4;">nil</span><span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-insert-diary-extract-time</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgaf04524" class="outline-4">
+<h4 id="orgaf04524"><span class="section-number-4">3.1.2</span> Visual Settings</h4>
+<div class="outline-text-4" id="text-3-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgd34cc80"></a>Set checkbox statistics face to orange<br />
+<div class="outline-text-5" id="text-3-1-2-1">
+<p>
+The pure red is a bit much, still need to lower the brightness though<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #84ffff;">set-face-attribute</span> <span style="color: #fff59d;">'</span><span style="color: #a7aac0;">org-checkbox-statistics-todo</span> <span style="color: #bb99b4;">nil</span> <span style="color: #ff8A65;">:background</span> <span style="color: #9ccc65;">"#FF5722"</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgc9ccdba"></a>Set done todo face to grey<br />
+<div class="outline-text-5" id="text-3-1-2-2">
+<p>
+They are grey by default in Doom emacs, but somewhere, somehow, they got set to orange.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #84ffff;">set-face-attribute</span> <span style="color: #fff59d;">'</span><span style="color: #e0a0bc;">org-headline-done</span> <span style="color: #bb99b4;">nil</span> <span style="color: #ff8A65;">:foreground</span> <span style="color: #9ccc65;">"grey"</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org59e204e"></a>Todo Keyword Face Colors<br />
+<div class="outline-text-5" id="text-3-1-2-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-todo-keyword-faces</span>
+        <span style="color: #EF6C00;">(</span><span style="color: #fff59d;">quote</span> <span style="color: #e91e63;">(</span><span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"</span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;">"</span> <span style="color: #ff8A65;">:foreground</span> <span style="color: #9ccc65;">"#FF5722"</span> <span style="color: #ff8A65;">:weight</span> <span style="color: #e0a0bc;">bold</span><span style="color: #2196F3;">)</span>
+                <span style="color: #b0bec5;">;; </span><span style="color: #b0bec5;">("NEXT" :foreground "#2196F3" :weight bold)</span>
+                <span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"DONE"</span> <span style="color: #ff8A65;">:foreground</span> <span style="color: #9ccc65;">"#4CAF50"</span> <span style="color: #ff8A65;">:weight</span> <span style="color: #e0a0bc;">bold</span><span style="color: #2196F3;">)</span>
+                <span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"WAITING"</span> <span style="color: #ff8A65;">:foreground</span> <span style="color: #9ccc65;">"orange"</span> <span style="color: #ff8A65;">:weight</span> <span style="color: #e0a0bc;">bold</span><span style="color: #2196F3;">)</span>
+                <span style="color: #b0bec5;">;; </span><span style="color: #b0bec5;">("HOLD" :foreground "#E040FB" :weight bold)</span>
+                <span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"CANCELLED"</span> <span style="color: #ff8A65;">:foreground</span> <span style="color: #9ccc65;">"#4CAF50"</span> <span style="color: #ff8A65;">:weight</span> <span style="color: #e0a0bc;">bold</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org4b26ab0" class="outline-4">
+<h4 id="org4b26ab0"><span class="section-number-4">3.1.3</span> GTD and Agenda Settings</h4>
+<div class="outline-text-4" id="text-3-1-3">
+</div>
+<ol class="org-ol">
+<li><a id="orga2ae337"></a>Custom agenda commands<br />
+<div class="outline-text-5" id="text-3-1-3-1">
+<ul class="org-ul">
+<li>This custom cmd was borrowed from <a href="https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html">Nicolas Petton&rsquo;s GTD with emacs breakdown</a>. It filters the todo list down to the first <code>todo</code> tasks tagged <code>@work</code>.<br /></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-custom-commands</span>
+        <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"w"</span> <span style="color: #9ccc65;">"Work"</span> <span style="color: #99bbb4;">tags-todo</span> <span style="color: #9ccc65;">"@work"</span>
+           <span style="color: #2196F3;">(</span><span style="color: #EF6C00;">(</span><span style="color: #ffcc80;">org-agenda-overriding-header</span> <span style="color: #9ccc65;">"Work"</span><span style="color: #EF6C00;">)</span>
+            <span style="color: #EF6C00;">(</span><span style="color: #ffcc80;">org-agenda-skip-function</span> <span style="color: #fff59d;">#'</span><span style="color: #b6a0e0;">my-org-agenda-skip-all-siblings-but-first</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span>
+
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">defun</span> <span style="color: #84ffff;">my-org-agenda-skip-all-siblings-but-first</span> <span style="color: #EF6C00;">()</span>
+    <span style="color: #ffe4b5;">"Skip all but the first non-done entry."</span>
+    <span style="color: #EF6C00;">(</span><span style="color: #fff59d;">let</span> <span style="color: #e91e63;">(</span><span style="color: #a7aac0;">should-skip-entry</span><span style="color: #e91e63;">)</span>
+      <span style="color: #e91e63;">(</span><span style="color: #fff59d;">unless</span> <span style="color: #2196F3;">(</span><span style="color: #84ffff;">org-current-is-todo</span><span style="color: #2196F3;">)</span>
+        <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #a7aac0;">should-skip-entry</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+      <span style="color: #e91e63;">(</span><span style="color: #fff59d;">save-excursion</span>
+        <span style="color: #2196F3;">(</span><span style="color: #fff59d;">while</span> <span style="color: #EF6C00;">(</span><span style="color: #fff59d;">and</span> <span style="color: #e91e63;">(</span><span style="color: #8bc34a;">not</span> <span style="color: #a7aac0;">should-skip-entry</span><span style="color: #e91e63;">)</span> <span style="color: #e91e63;">(</span><span style="color: #84ffff;">org-goto-sibling</span> <span style="color: #a0d6e0;">t</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span>
+          <span style="color: #EF6C00;">(</span><span style="color: #fff59d;">when</span> <span style="color: #e91e63;">(</span><span style="color: #84ffff;">org-current-is-todo</span><span style="color: #e91e63;">)</span>
+            <span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #a7aac0;">should-skip-entry</span> <span style="color: #a0d6e0;">t</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+      <span style="color: #e91e63;">(</span><span style="color: #fff59d;">when</span> <span style="color: #a7aac0;">should-skip-entry</span>
+        <span style="color: #2196F3;">(</span><span style="color: #fff59d;">or</span> <span style="color: #EF6C00;">(</span><span style="color: #84ffff;">outline-next-heading</span><span style="color: #EF6C00;">)</span>
+            <span style="color: #EF6C00;">(</span><span style="color: #8bc34a;">goto-char</span> <span style="color: #e91e63;">(</span><span style="color: #8bc34a;">point-max</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span>
+
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">defun</span> <span style="color: #84ffff;">org-current-is-todo</span> <span style="color: #EF6C00;">()</span>
+    <span style="color: #EF6C00;">(</span><span style="color: #8bc34a;">string=</span> <span style="color: #9ccc65;">"</span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;">"</span> <span style="color: #e91e63;">(</span><span style="color: #84ffff;">org-get-todo-state</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org5d81152"></a>Todo Keywords<br />
+<div class="outline-text-5" id="text-3-1-3-2">
+<p>
+Set up our todo keyword workflow<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-todo-keywords</span> <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #a7aac0;">sequence</span> <span style="color: #9ccc65;">"</span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;">(t)"</span> <span style="color: #9ccc65;">"WAITING(w)"</span> <span style="color: #9ccc65;">"|"</span> <span style="color: #9ccc65;">"DONE(d)"</span> <span style="color: #9ccc65;">"CANCELLED(c)"</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org92fba5d"></a>Capture Templates<br />
+<div class="outline-text-5" id="text-3-1-3-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-capture-templates</span> <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"t"</span> <span style="color: #9ccc65;">"Todo [inbox]"</span> <span style="color: #e0d0a0;">entry</span> <span style="color: #2196F3;">(</span><span style="color: #c0a7bd;">file+headline</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/inbox.org"</span> <span style="color: #9ccc65;">"Tasks"</span><span style="color: #2196F3;">)</span> <span style="color: #9ccc65;">"* </span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;"> %i%?"</span><span style="color: #e91e63;">)</span>
+                                <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"T"</span> <span style="color: #9ccc65;">"Tickler"</span> <span style="color: #e0d0a0;">entry</span> <span style="color: #2196F3;">(</span><span style="color: #c0a7bd;">file+headline</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/tickler.org"</span> <span style="color: #9ccc65;">"Tickler"</span><span style="color: #2196F3;">)</span> <span style="color: #9ccc65;">"* %i%? \n %U"</span><span style="color: #e91e63;">)</span>
+                                <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"j"</span> <span style="color: #9ccc65;">"Journal"</span> <span style="color: #e0d0a0;">entry</span> <span style="color: #2196F3;">(</span><span style="color: #b6a0e0;">file+datetree</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/diary.org"</span><span style="color: #2196F3;">)</span> <span style="color: #9ccc65;">"* %?\n%U\n"</span><span style="color: #e91e63;">)</span>
+                                <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"h"</span> <span style="color: #9ccc65;">"habit"</span> <span style="color: #e0d0a0;">entry</span> <span style="color: #2196F3;">(</span><span style="color: #b6a0e0;">file</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/inbox.org"</span><span style="color: #2196F3;">)</span>
+                                 <span style="color: #9ccc65;">"* </span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;"> %?\nSCHEDULED: %(format-time-string \"%&lt;&lt;%Y-%m-%d %a .+1d/3d&gt;&gt;\")\n:PROPERTIES:\n:STYLE: habit \n:END:\n%U\n"</span><span style="color: #e91e63;">)</span>
+                                <span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"n"</span> <span style="color: #9ccc65;">"Note"</span> <span style="color: #e0d0a0;">entry</span> <span style="color: #2196F3;">(</span><span style="color: #c0a7bd;">file+headline</span> <span style="color: #9ccc65;">"~/Dropbox/org/gtd/inbox.org"</span> <span style="color: #9ccc65;">"Notes"</span><span style="color: #2196F3;">)</span> <span style="color: #9ccc65;">"* %? :</span><span style="color: #4eee94; font-weight: bold;">NOTE:</span><span style="color: #9ccc65;">\n%U\n"</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8342c3b"></a>Remove scheduled headlines and deadlines from the agenda once they&rsquo;re marked done<br />
+<div class="outline-text-5" id="text-3-1-3-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-skip-scheduled-if-done</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-skip-deadline-if-done</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org2177e09"></a>Ignore scheduled headlines and deadlines in the global todo list<br />
+<div class="outline-text-5" id="text-3-1-3-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #a0d6e0;">org</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-todo-ignore-scheduled</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span>
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-todo-ignore-deadlines</span> <span style="color: #a0d6e0;">t</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org62353ed"></a>Set org download method<br />
+<div class="outline-text-5" id="text-3-1-3-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orga003a98"></a>Super Agenda<br />
+<div class="outline-text-5" id="text-3-1-3-7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">after!</span> <span style="color: #99bbb4;">org-agenda</span>
+  <span style="color: #2196F3;">(</span><span style="color: #ffcc80;">org-super-agenda-mode</span><span style="color: #2196F3;">)</span>
+
+  <span style="color: #2196F3;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #ffcc80;">org-agenda-custom-commands</span>
+        <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #9ccc65;">"o"</span> <span style="color: #9ccc65;">"Overview"</span>
+           <span style="color: #2196F3;">(</span><span style="color: #EF6C00;">(</span><span style="color: #a0d6e0;">agenda</span> <span style="color: #9ccc65;">""</span> <span style="color: #e91e63;">(</span><span style="color: #2196F3;">(</span><span style="color: #ffcc80;">org-agenda-span</span> <span style="color: #fff59d;">'</span><span style="color: #a3e0a0;">day</span><span style="color: #2196F3;">)</span>
+                        <span style="color: #2196F3;">(</span><span style="color: #ffcc80;">org-super-agenda-groups</span>
+                         <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Today"</span>
+                                  <span style="color: #ff8A65;">:time-grid</span> <span style="color: #a0d6e0;">t</span>
+                                  <span style="color: #ff8A65;">:date</span> <span style="color: #c0afa7;">today</span>
+                                  <span style="color: #ff8A65;">:todo</span> <span style="color: #9ccc65;">"TODAY"</span>
+                                  <span style="color: #ff8A65;">:scheduled</span> <span style="color: #c0afa7;">today</span>
+                                  <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">1</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span>
+            <span style="color: #EF6C00;">(</span><span style="color: #a7aac0;">alltodo</span> <span style="color: #9ccc65;">""</span> <span style="color: #e91e63;">(</span><span style="color: #2196F3;">(</span><span style="color: #ffcc80;">org-agenda-overriding-header</span> <span style="color: #9ccc65;">""</span><span style="color: #2196F3;">)</span>
+                         <span style="color: #2196F3;">(</span><span style="color: #ffcc80;">org-super-agenda-groups</span>
+                          <span style="color: #fff59d;">'</span><span style="color: #EF6C00;">(</span><span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Todo"</span>
+                                   <span style="color: #ff8A65;">:todo</span> <span style="color: #9ccc65;">"</span><span style="color: #ff9800; font-weight: bold;">TODO</span><span style="color: #9ccc65;">"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">1</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Important"</span>
+                                   <span style="color: #ff8A65;">:tag</span> <span style="color: #9ccc65;">"Important"</span>
+                                   <span style="color: #ff8A65;">:priority</span> <span style="color: #9ccc65;">"A"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">6</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Emacs"</span>
+                                   <span style="color: #ff8A65;">:tag</span> <span style="color: #9ccc65;">"Emacs"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">13</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Projects"</span>
+                                   <span style="color: #ff8A65;">:tag</span> <span style="color: #9ccc65;">"Project"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">14</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"To read"</span>
+                                   <span style="color: #ff8A65;">:tag</span> <span style="color: #9ccc65;">"Read"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">30</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Waiting"</span>
+                                   <span style="color: #ff8A65;">:todo</span> <span style="color: #9ccc65;">"WAITING"</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">20</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:name</span> <span style="color: #9ccc65;">"Trivial"</span>
+                                   <span style="color: #ff8A65;">:priority&lt;=</span> <span style="color: #9ccc65;">"E"</span>
+                                   <span style="color: #ff8A65;">:tag</span> <span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"Trivial"</span> <span style="color: #9ccc65;">"Unimportant"</span><span style="color: #2196F3;">)</span>
+                                   <span style="color: #ff8A65;">:todo</span> <span style="color: #2196F3;">(</span><span style="color: #9ccc65;">"SOMEDAY"</span> <span style="color: #2196F3;">)</span>
+                                   <span style="color: #ff8A65;">:order</span> <span style="color: #9ccc65;">90</span><span style="color: #e91e63;">)</span>
+                            <span style="color: #e91e63;">(</span><span style="color: #ff8A65;">:discard</span> <span style="color: #2196F3;">(</span><span style="color: #ff8A65;">:tag</span> <span style="color: #EF6C00;">(</span><span style="color: #9ccc65;">"Chore"</span> <span style="color: #9ccc65;">"Routine"</span> <span style="color: #9ccc65;">"Daily"</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb417454" class="outline-3">
+<h3 id="orgb417454"><span class="section-number-3">3.2</span> SQL mode config</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orga6e47ce" class="outline-4">
+<h4 id="orga6e47ce"><span class="section-number-4">3.2.1</span> Set defaults</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #e91e63;">(</span><span style="color: #fff59d;">setq</span> <span style="color: #a0d6e0;">sql-postgres-login-params</span>
+      <span style="color: #fff59d;">'</span><span style="color: #2196F3;">(</span><span style="color: #EF6C00;">(</span><span style="color: #b3c0a7;">user</span> <span style="color: #ff8A65;">:default</span> <span style="color: #9ccc65;">"postgres"</span><span style="color: #EF6C00;">)</span>
+        <span style="color: #EF6C00;">(</span><span style="color: #a3e0a0;">database</span> <span style="color: #ff8A65;">:default</span> <span style="color: #9ccc65;">"joydrive_dev"</span><span style="color: #EF6C00;">)</span>
+        <span style="color: #EF6C00;">(</span><span style="color: #9999bb;">server</span> <span style="color: #ff8A65;">:default</span> <span style="color: #9ccc65;">"localhost"</span><span style="color: #EF6C00;">)</span><span style="color: #2196F3;">)</span><span style="color: #e91e63;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: torkable</p>
+<p class="date">Created: 2020-05-10 Sun 01:22</p>
+</div>
+</body>
+</html>
