@@ -1,0 +1,332 @@
+#+TITLE: Doom Emacs Configuration
+#+AUTHOR: torkable
+#+PROPERTY: header-args:emacs-lisp :tangle yes :cache yes :results silent :comments link
+#+HTML_HEAD: <link rel='shortcut icon' type='image/png' href='https://www.gnu.org/software/emacs/favicon.png'>
+#+OPTIONS: \n:t
+* Info
+Here are some additional functions/macros that could help you configure Doom:
+
+- ~load!~ for loading external *.el files relative to this one
+- ~use-package~ for configuring packages
+- ~after!~ for running code after a package has loaded
+- ~add-load-path!~ for adding directories to the `load-path', relative to
+  this file. Emacs searches the `load-path' when you load packages with
+  ~require~ or `use-package'.
+- ~map!~ for binding new keys
+
+To get information about any of these functions/macros, move the cursor over
+the highlighted symbol at press ~K~ (non-evil users must press ~C-c g k~).
+This will open documentation for it, including demos of how they are used.
+
+You can also try ~gd~ (or ~C-c g d~) to jump to their definition and see how
+they are implemented.
+
+** Enabling Literate Config Mode
+1. Uncomment ~literate~ under ~:config~ in ~init.el~
+2. Create a ~config.org~ file (like this one) in your Doom dir
+3. Run ~bin/doom refresh~
+
+* Basic Config
+Make this file run (slightly) faster with lexical binding (see [[https://nullprogram.com/blog/2016/12/22/][this blog post]]
+for more info).
+
+#+BEGIN_SRC emacs-lisp
+;;; config.el -*- lexical-binding: t; -*-
+#+END_SRC
+
+Place your private configuration here! Remember, you do not need to run ~doom
+sync~ after modifying this file!
+
+** User Info
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "torkable"
+      user-mail-address "jks15063@gmail.com")
+#+END_SRC
+
+** Fullscreen
+Expand to fullscreen on start
+
+#+BEGIN_SRC emacs-lisp
+(if (eq initial-window-system 'x) ; if started by emacs command or desktop file
+    (toggle-frame-maximized)
+  (toggle-frame-fullscreen))
+#+END_SRC
+
+** Visual Settings
+*** Font
+Doom exposes five (optional) variables for controlling fonts in Doom. Here
+are the three important ones:
+
++ ~doom-font~
++ ~doom-variable-pitch-font~
++ ~doom-big-font~ -- used for ~doom-big-font-mode~; use this for
+  presentations or streaming.
+
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+font string. You generally only need these two:
+
+I compiled a version of ~iosevka~ with additional special characters to support
+the [[*Ligatures][Ligatures]] added below
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Iosevka" :size 32))
+#+end_src
+*** Theme
+Non-doom themes can be added in packages
+
+#+begin_src emacs-lisp
+(setq doom-theme 'material)
+#+end_src
+*** Line numbers
+This determines the style of line numbers in effect. If set to `nil', line
+numbers are disabled. For relative line numbers, set this to `relative'.
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type t)
+#+end_src
+*** Rainbow Identifiers
+Rainbow identifiers in all prog modes
+
+#+begin_src emacs-lisp
+(add-hook! prog-mode #'rainbow-identifiers-mode)
+#+end_src
+*** Ligatures
+The ligatures set for elixir mode make 0 sense. Remove the nonsense and setup a
+few arrows.
+
+Look at ~modules/lang/elixir/config.el~ for ~set-pretty-symbols!~ for list of
+elixir-mode symbols.
+#+BEGIN_SRC emacs-lisp
+(plist-delete! +pretty-code-symbols :def)
+(plist-delete! +pretty-code-symbols :in)
+(plist-delete! +pretty-code-symbols :for)
+(plist-delete! +pretty-code-symbols :lambda)
+(plist-delete! +pretty-code-symbols :yield)
+(plist-delete! +pretty-code-symbols :not-in)
+(plist-delete! +pretty-code-symbols :and)
+(plist-delete! +pretty-code-symbols :or)
+(plist-put +pretty-code-symbols :|> #Xe142)
+(plist-put +pretty-code-symbols :-> #Xe149)
+(plist-put +pretty-code-symbols :=> #Xe161)
+(plist-put +pretty-code-symbols :<- #Xe179)
+(plist-put +pretty-code-symbols :<> #Xe1c9)
+(plist-put +pretty-code-symbols :<!-- #Xe10e)
+(plist-put +pretty-code-symbols :<!--- #Xe10f)
+#+END_SRC
+*** Custom Banner
+#+BEGIN_SRC emacs-lisp
+(setq fancy-splash-image "/home/jake/Pictures/doom-logo.png")
+#+END_SRC
+** Keybinds
+*** Local leader key
+Set local leader key to ~,~
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-localleader-key ",")
+#+END_SRC
+*** Avy and surround setup
+For the last few years on ~spacemacs~, I had moved surround to =S= and had
+~avy-goto-char-timer~ set to =s=. But by default, Doom emacs replaces =s= and
+=S= with ~evil snipe~, which is similar, but not what I want, so lets turn it
+off:
+#+BEGIN_SRC emacs-lisp
+(after! evil-snipe
+  (evil-snipe-mode -1))
+#+END_SRC
+
+Map ~avy-goto-char-timer~ to =s= and ~avy-goto-line~ to =C-;=:
+#+BEGIN_SRC emacs-lisp
+(evil-define-key '(normal motion) global-map "s" 'avy-goto-char-timer)
+(evil-define-key '(visual operator) evil-surround-mode-map "s" 'avy-goto-char-timer)
+(evil-define-key '(normal motion visual operator) global-map (kbd "C-;") 'avy-goto-line)
+#+END_SRC
+
+And move surround to =S=:
+#+BEGIN_SRC emacs-lisp
+(evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
+(evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+#+END_SRC
+*** Bind newline command
+#+BEGIN_SRC emacs-lisp
+(map! :leader "j n" #'sp-newline)
+#+END_SRC
+*** Rebind org agenda
+The default sub-group is completely redundant, all the cmds are already
+available on the agenda.
+#+BEGIN_SRC emacs-lisp
+(map! :leader "o a" #'org-agenda)
+#+END_SRC
+*** Rebind org capture
+By default on =SPC X=, going to overwrite =SPC x= because I never use the
+scratch buffer.
+
+#+BEGIN_SRC emacs-lisp
+(map! :leader "x" #'org-capture)
+#+END_SRC
+** Misc QoL settings
+*** Unordered escape key sequence
+So I can just mash ~jk~ without thinking
+
+#+BEGIN_SRC emacs-lisp
+(setq evil-escape-unordered-key-sequence t)
+#+END_SRC
+*** Copy paste with middle mouse button
+#+BEGIN_SRC emacs-lisp
+(setq xterm-mouse-mode -1)
+#+END_SRC
+*** Open magit fullscreen
+Can't get this to work yet
+
+#+BEGIN_SRC emacs-lisp
+;; (after! magit
+;;   (setq-default git-magit-status-fullscreen t))
+#+END_SRC
+*** Global word wrap
+#+BEGIN_SRC emacs-lisp
+(+global-word-wrap-mode +1)
+#+END_SRC
+*** Treat ~_~ as a word characters
+#+BEGIN_SRC emacs-lisp
+;; For elixir
+(add-hook! 'elixir-mode-hook (modify-syntax-entry ?_ "w"))
+#+END_SRC
+*** VTerm
+#+BEGIN_SRC emacs-lisp
+(setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
+#+END_SRC
+* Mode Config
+** Org mode Config
+*** Org directory
+Set the base org mode directory
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Dropbox/org/gtd/")
+#+END_SRC
+*** Roam directory
+#+BEGIN_SRC emacs-lisp
+(setq org-roam-directory "~/Dropbox/org/roam")
+#+END_SRC
+*** Set checkbox statistics face to orange
+The pure red is a bit much, still need to lower the brightness though
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (set-face-attribute 'org-checkbox-statistics-todo nil :background "#FF5722"))
+#+END_SRC
+
+*** Set done todo face to grey
+They are grey by default in Doom emacs, but somewhere, somehow, they got set to orange.
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (set-face-attribute 'org-headline-done nil :foreground "grey"))
+#+END_SRC
+
+*** Diary Settings
+Set the diary file, exclude it from our agenda, and insert timestamps on creation.
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-diary-file "~/Dropbox/org/gtd/diary.org")
+  (setq org-agenda-include-diary nil)
+  (setq org-agenda-insert-diary-extract-time t))
+#+END_SRC
+*** GTD and Agenda Setup
+**** GTD agenda files
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
+                           "~/Dropbox/org/gtd/gtd.org"
+                           "~/Dropbox/org/gtd/tickler.org")))
+#+END_SRC
+**** Custom agenda commands
+- This custom cmd was borrowed from [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][Nicolas Petton's GTD with emacs breakdown]]. It filters the todo list down to the first =todo= tasks tagged =@work=.
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-custom-commands
+        '(("w" "Work" tags-todo "@work"
+           ((org-agenda-overriding-header "Work")
+            (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+
+  (defun my-org-agenda-skip-all-siblings-but-first ()
+    "Skip all but the first non-done entry."
+    (let (should-skip-entry)
+      (unless (org-current-is-todo)
+        (setq should-skip-entry t))
+      (save-excursion
+        (while (and (not should-skip-entry) (org-goto-sibling t))
+          (when (org-current-is-todo)
+            (setq should-skip-entry t))))
+      (when should-skip-entry
+        (or (outline-next-heading)
+            (goto-char (point-max))))))
+
+  (defun org-current-is-todo ()
+    (string= "TODO" (org-get-todo-state))))
+#+END_SRC
+**** Todo Keywords
+Set up our todo keyword workflow
+
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))))
+#+END_SRC
+**** Todo Keyword Face Colors
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-todo-keyword-faces
+        (quote (("TODO" :foreground "#FF5722" :weight bold)
+                ;; ("NEXT" :foreground "#2196F3" :weight bold)
+                ("DONE" :foreground "#4CAF50" :weight bold)
+                ("WAITING" :foreground "orange" :weight bold)
+                ;; ("HOLD" :foreground "#E040FB" :weight bold)
+                ("CANCELLED" :foreground "#4CAF50" :weight bold)))))
+#+END_SRC
+**** Capture Templates
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Tasks") "* TODO %i%?")
+                                ("T" "Tickler" entry (file+headline "~/Dropbox/org/gtd/tickler.org" "Tickler") "* %i%? \n %U")
+                                ("j" "Journal" entry (file+datetree "~/Dropbox/org/gtd/diary.org") "* %?\n%U\n")
+                                ("h" "habit" entry (file "~/Dropbox/org/gtd/inbox.org")
+                                 "* TODO %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit \n:END:\n%U\n")
+                                ("n" "Note" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Notes") "* %? :NOTE:\n%U\n"))))
+#+END_SRC
+**** Refile targets
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
+                             ("~/Dropbox/org/gtd/someday.org" :level . 1)
+                             ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2))))
+#+END_SRC
+
+Allow the creation of new parent nodes while refiling. This means “allow me to
+tack new heading names onto the end of my outline path, and if I am asking to
+create new ones, make me confirm it.”
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-refile-allow-creating-parent-nodes 'confirm))
+#+END_SRC
+**** Remove scheduled headlines and deadlines from the agenda once they're marked done
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t))
+#+END_SRC
+**** Ignore scheduled headlines and deadlines in the global todo list
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-todo-ignore-scheduled t)
+  (setq org-agenda-todo-ignore-deadlines t))
+#+END_SRC
+**** Set org download method
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+** SQL mode config
+*** Set defaults
+#+BEGIN_SRC emacs-lisp
+(setq sql-postgres-login-params
+      '((user :default "postgres")
+        (database :default "joydrive_dev")
+        (server :default "localhost")))
+#+END_SRC
