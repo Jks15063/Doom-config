@@ -39,14 +39,14 @@ sync~ after modifying this file!
 
 ** User Info
 #+BEGIN_SRC emacs-lisp
-(setq user-full-name "torkable"
+(setq user-full-name "jks15063"
       user-mail-address "jks15063@gmail.com")
 #+END_SRC
 
 ** Fullscreen
 Expand to fullscreen on start
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (if (eq initial-window-system 'x)
     (toggle-frame-maximized)
   (toggle-frame-fullscreen))
@@ -95,7 +95,7 @@ few arrows.
 
 Look at ~modules/lang/elixir/config.el~ for ~set-pretty-symbols!~ for list of
 elixir-mode symbols.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (plist-delete! +pretty-code-symbols :def)
 (plist-delete! +pretty-code-symbols :in)
 (plist-delete! +pretty-code-symbols :for)
