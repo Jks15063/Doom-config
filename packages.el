@@ -51,4 +51,13 @@
 (package! org-super-agenda)
 (package! org-pretty-tags)
 (package! org-chef)
+(package! org-real
+ :recipe (:host gitlab :repo "tygrdev/org-real"))
+(package! org-books)
 (unpin! vterm)
+(package! gitconfig-mode
+	  :recipe (:host github :repo "magit/git-modes"
+			 :files ("gitconfig-mode.el")))
+(package! gitignore-mode
+	  :recipe (:host github :repo "magit/git-modes"
+			 :files ("gitignore-mode.el")))

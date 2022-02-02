@@ -129,8 +129,7 @@ For the last few years on ~spacemacs~, I had moved surround to =S= and had
 =S= with ~evil snipe~, which is similar, but not what I want, so lets turn it
 off:
 #+BEGIN_SRC emacs-lisp
-(after! evil-snipe
-  (evil-snipe-mode -1))
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 #+END_SRC
 
 Map ~avy-goto-char-timer~ to =s= and ~avy-goto-line~ to =C-;=:
@@ -194,7 +193,7 @@ Can't get this to work yet
 (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
 #+END_SRC
 * Mode Config
-** Org mode Config
+** Org mode config
 *** Directory Setup
 **** Org directory
 Set the base org mode directory
@@ -261,6 +260,14 @@ They are grey by default in Doom emacs, but somewhere, somehow, they got set to 
                 ;; ("HOLD" :foreground "#E040FB" :weight bold)
                 ("CANCELLED" :foreground "#4CAF50" :weight bold)))))
 #+END_SRC
+
+**** Inline images on load
+not working, add ~#+STARTUP: inlineimages~ to org file
+#+BEGIN_SRC emacs-lisp :tangle no
+(after! org
+  (setq org-startup-with-inline-images t))
+#+END_SRC
+
 *** GTD and Agenda Settings
 **** Custom agenda commands
 - This custom cmd was borrowed from [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][Nicolas Petton's GTD with emacs breakdown]]. It filters the todo list down to the first =todo= tasks tagged =@work=.
@@ -370,4 +377,8 @@ Set up our todo keyword workflow
       '((user :default "postgres")
         (database :default "joydrive_dev")
         (server :default "localhost")))
+#+END_SRC
+** Org-books config
+#+BEGIN_SRC emacs-lisp
+(setq org-books-file "~/Dropbox/org/gtd/book-list.org")
 #+END_SRC
