@@ -304,7 +304,7 @@ Set up our todo keyword workflow
 **** Capture Templates
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (setq org-capture-templates '(("t" "Todo [inbox]" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Tasks") "* TODO %i%?")
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Tasks") "* TODO %i%?\n")
                                 ("T" "Tickler" entry (file+headline "~/Dropbox/org/gtd/tickler.org" "Tickler") "* %i%? \n %U")
                                 ("j" "Journal" entry (file+datetree "~/Dropbox/org/gtd/diary.org") "* %?\n%U\n")
                                 ("h" "habit" entry (file "~/Dropbox/org/gtd/inbox.org")
