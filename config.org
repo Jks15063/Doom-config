@@ -68,7 +68,7 @@ font string. You generally only need these two:
 I compiled a version of ~iosevka~ with additional special characters to support
 the [[*Ligatures][Ligatures]] added below
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka" :size 32))
+(setq doom-font (font-spec :family "Iosevka" :size 16))
 #+end_src
 *** Theme
 Non-doom themes can be added in packages
@@ -201,20 +201,25 @@ Set the base org mode directory
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/gtd/")
 #+END_SRC
+
 **** Roam directory
 #+BEGIN_SRC emacs-lisp
 (setq org-roam-directory "~/Dropbox/org/roam")
 #+END_SRC
+
 **** GTD agenda files
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
                          "~/Dropbox/org/gtd/gtd.org"
+                         "~/Dropbox/org/gtd/cars.org"
                          "~/Dropbox/org/gtd/tickler.org"))
 #+END_SRC
+
 **** Refile targets
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-targets '(("~/Dropbox/org/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/org/gtd/someday.org" :level . 1)
+                           ("~/Dropbox/org/gtd/cars.org" :level . 1)
                            ("~/Dropbox/org/gtd/tickler.org" :maxlevel . 2)))
 #+END_SRC
 
@@ -224,6 +229,7 @@ create new ones, make me confirm it.”
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
+
 **** Diary Settings
 Set the diary file, exclude it from our agenda, and insert timestamps on creation.
 
@@ -299,7 +305,7 @@ Set up our todo keyword workflow
 
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w@)" "|" "DONE(d)" "CANCELLED(c)"))))
 #+END_SRC
 **** Capture Templates
 #+BEGIN_SRC emacs-lisp
@@ -375,9 +381,18 @@ Set up our todo keyword workflow
 #+BEGIN_SRC emacs-lisp
 (setq sql-postgres-login-params
       '((user :default "postgres")
-        (database :default "joydrive_dev")
-        (server :default "localhost")))
+        (password :default "postgres")
+        (database :default "engine_dev")
+        (server :default "0.0.0.0")))
+
+(setq sql-connection-alist
+  '(("local" (sql-product 'postgres)
+     (sql-database "engine_dev")
+     (sql-user "postgres")
+     (sql-server "0.0.0.0")
+     (sql-password "postgres"))))
 #+END_SRC
+
 ** Org-books config
 #+BEGIN_SRC emacs-lisp
 (setq org-books-file "~/Dropbox/org/gtd/book-list.org")
