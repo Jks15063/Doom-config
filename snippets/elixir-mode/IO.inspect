@@ -1,0 +1,4 @@
+# key: IO
+# name: IO.inspect
+# --
+IO.inspect($1, label: "$2")
