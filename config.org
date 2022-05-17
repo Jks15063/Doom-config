@@ -161,6 +161,14 @@ scratch buffer.
 #+BEGIN_SRC emacs-lisp
 (map! :leader "x" #'org-capture)
 #+END_SRC
+
+*** Bind SQL-connect
+Connect to one of the db connections defined in ~sql-connection-alist~
+
+#+BEGIN_SRC emacs-lisp
+(map! :leader "o s" #'sql-connect)
+#+END_SRC
+
 ** Misc QoL settings
 *** Unordered escape key sequence
 So I can just mash ~jk~ without thinking
