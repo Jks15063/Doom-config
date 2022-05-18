@@ -123,6 +123,7 @@ Set local leader key to ~,~
 #+BEGIN_SRC emacs-lisp
 (setq doom-localleader-key ",")
 #+END_SRC
+
 *** Avy and surround setup
 For the last few years on ~spacemacs~, I had moved surround to =S= and had
 ~avy-goto-char-timer~ set to =s=. But by default, Doom emacs replaces =s= and
@@ -144,19 +145,22 @@ And move surround to =S=:
 (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
 (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
 #+END_SRC
+
 *** Bind newline command
 #+BEGIN_SRC emacs-lisp
 (map! :leader "j n" #'sp-newline)
 #+END_SRC
+
 *** Rebind org agenda
 The default sub-group is completely redundant, all the cmds are already
 available on the agenda.
 #+BEGIN_SRC emacs-lisp
 (map! :leader "o a" #'org-agenda)
 #+END_SRC
+
 *** Rebind org capture
-By default on =SPC X=, going to overwrite =SPC x= because I never use the
-scratch buffer.
+By default on =SPC X=, going to overwrite =SPC x= because scratch buffer is
+still easy to get to with =SPC b x=.
 
 #+BEGIN_SRC emacs-lisp
 (map! :leader "x" #'org-capture)
@@ -179,13 +183,6 @@ So I can just mash ~jk~ without thinking
 *** Copy paste with middle mouse button
 #+BEGIN_SRC emacs-lisp
 (setq xterm-mouse-mode -1)
-#+END_SRC
-*** Open magit fullscreen
-Can't get this to work yet
-
-#+BEGIN_SRC emacs-lisp
-;; (after! magit
-;;   (setq-default git-magit-status-fullscreen t))
 #+END_SRC
 *** Global word wrap
 #+BEGIN_SRC emacs-lisp
@@ -285,6 +282,8 @@ not working, add ~#+STARTUP: inlineimages~ to org file
 *** GTD and Agenda Settings
 **** Custom agenda commands
 - This custom cmd was borrowed from [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][Nicolas Petton's GTD with emacs breakdown]]. It filters the todo list down to the first =todo= tasks tagged =@work=.
+
+Never use this and not sure how to use it, should remove this.
 #+BEGIN_SRC emacs-lisp
 (after! org
   (setq org-agenda-custom-commands
@@ -309,11 +308,11 @@ not working, add ~#+STARTUP: inlineimages~ to org file
     (string= "TODO" (org-get-todo-state))))
 #+END_SRC
 **** Todo Keywords
-Set up our todo keyword workflow
+Set up todo keyword workflow
 
 #+BEGIN_SRC emacs-lisp
 (after! org
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w@)" "|" "DONE(d)" "CANCELLED(c)"))))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w@)" "|" "DONE(d)" "CANCELLED(c@)"))))
 #+END_SRC
 **** Capture Templates
 #+BEGIN_SRC emacs-lisp
@@ -338,6 +337,7 @@ Set up our todo keyword workflow
   (setq org-agenda-todo-ignore-deadlines t))
 #+END_SRC
 **** Set org download method
+not sure what happened here lol, leaving for now.
 #+BEGIN_SRC emacs-lisp
 
 #+END_SRC
@@ -394,11 +394,17 @@ Set up our todo keyword workflow
         (server :default "0.0.0.0")))
 
 (setq sql-connection-alist
-  '(("local" (sql-product 'postgres)
-     (sql-database "engine_dev")
-     (sql-user "postgres")
-     (sql-server "0.0.0.0")
-     (sql-password "postgres"))))
+      '(("local" (sql-product 'postgres)
+         (sql-database "engine_dev")
+         (sql-user "postgres")
+         (sql-server "0.0.0.0")
+         (sql-password "postgres"))
+        ("cars_NP" (sql-product 'postgres)
+         (sql-database "engine_dev")
+         (sql-user "postgres")
+         (sql-server "")
+         (sql-password ""))))
+
 #+END_SRC
 
 ** Org-books config
