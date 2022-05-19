@@ -207,11 +207,6 @@ Set the base org mode directory
 (setq org-directory "~/Dropbox/org/gtd/")
 #+END_SRC
 
-**** Roam directory
-#+BEGIN_SRC emacs-lisp
-(setq org-roam-directory "~/Dropbox/org/roam")
-#+END_SRC
-
 **** GTD agenda files
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files '("~/Dropbox/org/gtd/inbox.org"
