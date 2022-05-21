@@ -380,26 +380,53 @@ not sure what happened here lol, leaving for now.
                             (:discard (:tag ("Chore" "Routine" "Daily"))))))))))))
 #+END_SRC
 ** SQL mode config
-*** Set defaults
-#+BEGIN_SRC emacs-lisp
-(setq sql-postgres-login-params
-      '((user :default "postgres")
-        (password :default "postgres")
-        (database :default "engine_dev")
-        (server :default "0.0.0.0")))
+*** Cars.com db connections
+**** Define connections
+If I don't pass in a password, emacs asks for a password twice. First password
+doesn't seem to matter, so pass in empty string here and then it only asks once.
 
+The NP connection works but I have to enter the password each time.
+#+BEGIN_SRC emacs-lisp
 (setq sql-connection-alist
       '(("local" (sql-product 'postgres)
          (sql-database "engine_dev")
          (sql-user "postgres")
          (sql-server "0.0.0.0")
-         (sql-password "postgres"))
+         (sql-password ""))
         ("cars_NP" (sql-product 'postgres)
-         (sql-database "engine_dev")
-         (sql-user "postgres")
-         (sql-server "")
+         (sql-database "cars_platform")
+         (sql-user "cars_platform")
+         (sql-server "cars-platform-np-11-8.cluster-cqjdh8pomb3b.us-east-1.rds.amazonaws.com")
          (sql-password ""))))
+#+END_SRC
 
+**** Connect to NP using ~pg-passwords.el.gpg~
+WIP: Following along with https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-database-client
+#+BEGIN_SRC emacs-lisp
+(defun pg-local ()
+  (interactive)
+  (pg-sql-connect 'postgres 'local))
+
+(defun pg-sql-connect (product connection)
+  ;; load the password
+  (require '~/pg-passwords.el.gpg)
+
+  ;; update the password to the sql-connection-alist
+  (let ((connection-info (assoc connection sql-connection-alist))
+        (sql-password (car (last (assoc connection pg-sql-password)))))
+    (delete sql-password connection-info)
+    (nconc connection-info `((sql-password ,sql-password)))
+    (setq sql-connection-alist (assq-delete-all connection sql-connection-alist))
+    (add-to-list 'sql-connection-alist connection-info))
+
+  ;; connect to database
+  (setq sql-product product)
+  (sql-connect connection))
+#+END_SRC
+
+**** Prod
+
+#+BEGIN_SRC elisp
 #+END_SRC
 
 ** Org-books config
