@@ -46,7 +46,7 @@ sync~ after modifying this file!
 ** Fullscreen
 Expand to fullscreen on start
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (if (eq initial-window-system 'x)
     (toggle-frame-maximized)
   (toggle-frame-fullscreen))
@@ -65,16 +65,14 @@ are the three important ones:
 They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 font string. You generally only need these two:
 
-I compiled a version of ~iosevka~ with additional special characters to support
-the [[*Ligatures][Ligatures]] added below
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka" :size 16))
+(setq doom-font (font-spec :family "Iosevka" :size 17))
 #+end_src
 *** Theme
 Non-doom themes can be added in packages
 
 #+begin_src emacs-lisp
-(setq doom-theme 'material)
+(setq doom-theme 'doom-nord)
 #+end_src
 *** Line numbers
 This determines the style of line numbers in effect. If set to `nil', line
@@ -170,8 +168,18 @@ still easy to get to with =SPC b x=.
 Connect to one of the db connections defined in ~sql-connection-alist~
 
 #+BEGIN_SRC emacs-lisp
-(map! :leader "o s" #'sql-connect)
+(map! :leader
+      :desc "SQL Connections"
+      "o s" #'sql-connect)
 #+END_SRC
+
+*** Bind custom RDS connect function
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("a" . "AWS")
+      :desc "Cars prod db - read only"
+      "r" #'cars-prod-db-read-only))
+#+end_src
 
 ** Misc QoL settings
 *** Unordered escape key sequence
@@ -180,23 +188,28 @@ So I can just mash ~jk~ without thinking
 #+BEGIN_SRC emacs-lisp
 (setq evil-escape-unordered-key-sequence t)
 #+END_SRC
+
 *** Copy paste with middle mouse button
 #+BEGIN_SRC emacs-lisp
 (setq xterm-mouse-mode -1)
 #+END_SRC
+
 *** Global word wrap
 #+BEGIN_SRC emacs-lisp
 (+global-word-wrap-mode +1)
 #+END_SRC
+
 *** Treat underscore as a word character
 #+BEGIN_SRC emacs-lisp
 ;; For elixir
 (add-hook! 'elixir-mode-hook (modify-syntax-entry ?_ "w"))
 #+END_SRC
+
 *** VTerm
 #+BEGIN_SRC emacs-lisp
 (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
 #+END_SRC
+
 * Mode Config
 ** Org mode config
 *** Directory Setup
@@ -426,7 +439,10 @@ WIP: Following along with https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-d
 
 **** Prod
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
+(defun cars-prod-db-read-only ()
+  (interactive)
+  (message "Hello world!"))
 #+END_SRC
 
 ** Org-books config
