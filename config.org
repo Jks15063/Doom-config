@@ -180,6 +180,13 @@ Connect to one of the db connections defined in ~sql-connection-alist~
       :desc "Cars prod db - read only"
       "r" #'cars-prod-db-read-only))
 #+end_src
+*** Bind restclient functions so they're easy to use with babel
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("R" . "restclient")
+      :desc "send current"
+      "s" #'restclient-http-send-current))
+#+end_src
 
 ** Misc QoL settings
 *** Unordered escape key sequence
@@ -415,7 +422,7 @@ The NP connection works but I have to enter the password each time.
 
 **** Connect to NP using ~pg-passwords.el.gpg~
 WIP: Following along with https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-database-client
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (defun pg-local ()
   (interactive)
   (pg-sql-connect 'postgres 'local))
