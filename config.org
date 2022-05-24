@@ -188,6 +188,20 @@ Connect to one of the db connections defined in ~sql-connection-alist~
       "s" #'restclient-http-send-current))
 #+end_src
 
+*** Bind extra fold functions
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("c F" . "fold")
+       :desc "close fold"
+       "c" #'+fold/close))
+#+end_src
+
+#+begin_src emacs-lisp
+(map! :leader
+      :desc "open fold"
+      "c F o" #'+fold/open)
+#+end_src
+
 ** Misc QoL settings
 *** Unordered escape key sequence
 So I can just mash ~jk~ without thinking
