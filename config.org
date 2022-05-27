@@ -43,7 +43,8 @@ sync~ after modifying this file!
       user-mail-address "jks15063@gmail.com")
 #+END_SRC
 
-** Fullscreen
+** Visual Settings
+*** Fullscreen
 Expand to fullscreen on start
 
 #+BEGIN_SRC emacs-lisp
@@ -52,7 +53,6 @@ Expand to fullscreen on start
   (toggle-frame-fullscreen))
 #+END_SRC
 
-** Visual Settings
 *** Font
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
 are the three important ones:
@@ -161,7 +161,9 @@ By default on =SPC X=, going to overwrite =SPC x= because scratch buffer is
 still easy to get to with =SPC b x=.
 
 #+BEGIN_SRC emacs-lisp
-(map! :leader "x" #'org-capture)
+(map! :leader
+      :desc "org capture"
+      "x" #'org-capture)
 #+END_SRC
 
 *** Bind SQL-connect
@@ -174,7 +176,7 @@ Connect to one of the db connections defined in ~sql-connection-alist~
 #+END_SRC
 
 *** Bind custom RDS connect function
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (map! :leader
       (:prefix ("a" . "AWS")
       :desc "Cars prod db - read only"
@@ -230,6 +232,13 @@ So I can just mash ~jk~ without thinking
 #+BEGIN_SRC emacs-lisp
 (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
 #+END_SRC
+
+** Cars.com
+*** Env vars
+#+begin_src emacs-lisp
+(setenv "AWS_PROFILE" "cars-beta-np-118439772188-developer")
+(setenv "AWS_SDK_LOAD_CONFIG" "1")
+#+end_src
 
 * Mode Config
 ** Org mode config
@@ -460,7 +469,7 @@ WIP: Following along with https://truongtx.me/2014/08/23/setup-emacs-as-an-sql-d
 
 **** Prod
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (defun cars-prod-db-read-only ()
   (interactive)
   (message "Hello world!"))
