@@ -56,8 +56,12 @@
 (package! org-books)
 (unpin! vterm)
 (package! gitconfig-mode
-	  :recipe (:host github :repo "magit/git-modes"
-			 :files ("gitconfig-mode.el")))
+  :recipe (:host github :repo "magit/git-modes"
+           :files ("gitconfig-mode.el")))
 (package! gitignore-mode
-	  :recipe (:host github :repo "magit/git-modes"
-			 :files ("gitignore-mode.el")))
+  :recipe (:host github :repo "magit/git-modes"
+           :files ("gitignore-mode.el")))
+(package! org-tree-slide)
+(package! nhexl-mode)
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
