@@ -65,3 +65,6 @@
 (package! nhexl-mode)
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+(package! markdown-toc)
+(package! picat-mode
+  :recipe (:host github :repo "rurban/picat-lang" :files ("*.el" "dist")))

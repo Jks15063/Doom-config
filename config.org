@@ -67,7 +67,7 @@ They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 font string. You generally only need these two:
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka" :size 17))
+(setq doom-font (font-spec :family "Iosevka" :size 16))
 #+end_src
 *** Theme
 Non-doom themes can be added in packages
@@ -80,7 +80,7 @@ This determines the style of line numbers in effect. If set to `nil', line
 numbers are disabled. For relative line numbers, set this to `relative'.
 
 #+begin_src emacs-lisp
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 #+end_src
 *** Rainbow Identifiers
 Rainbow identifiers in all prog modes
@@ -446,7 +446,7 @@ The NP connection works but I have to enter the password each time.
         ("cars_NP" (sql-product 'postgres)
          (sql-database "cars_platform")
          (sql-user "cars_platform")
-         (sql-server "cars-platform-np-11-8.cluster-cqjdh8pomb3b.us-east-1.rds.amazonaws.com")
+         (sql-server "cars-platform-np-11-b.cluster-ro-cqjdh8pomb3b.us-east-1.rds.amazonaws.com")
          (sql-password ""))))
 #+END_SRC
 
