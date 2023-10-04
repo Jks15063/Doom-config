@@ -428,6 +428,11 @@ not sure what happened here lol, leaving for now.
 #+begin_src emacs-lisp
 (remove-hook 'org-mode-hook #'auto-fill-mode)
 #+end_src
+** Git
+*** forge
+#+begin_src emacs-lisp
+(setq auth-sources '("~/.authinfo"))
+#+end_src
 
 ** SQL mode config
 *** Cars.com db connections
