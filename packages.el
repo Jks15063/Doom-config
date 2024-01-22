@@ -57,3 +57,11 @@
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 (package! sqlformat)
+;; (use-package lsp-mode
+;;   :commands lsp
+;;   :ensure t
+;;   :diminish lsp-mode
+;;   :hook
+;;   (elixir-mode . lsp)
+;;   :init
+;;   (add-to-list 'exec-path "/Users/jacobsellers/.local/bin/elixir-ls"))
