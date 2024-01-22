@@ -201,6 +201,7 @@ Set the diary file, exclude it from our agenda, and insert timestamps on creatio
 (setq org-agenda-include-diary nil)
 (setq org-agenda-insert-diary-extract-time t)
 #+END_SRC
+
 *** Visual Settings
 **** Set checkbox statistics face to orange
 The pure red is a bit much, still need to lower the brightness though
@@ -245,6 +246,24 @@ Set up todo keyword workflow
 (after! org
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w@)" "|" "DONE(d)" "CANCELLED(c@)"))))
 #+END_SRC
+**** Capture Templates
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Tasks") "* TODO %i%?\n")
+                                ("T" "Tickler" entry (file+headline "~/Dropbox/org/gtd/tickler.org" "Tickler") "* %i%? \n %U")
+                                ("j" "Journal" entry (file+datetree "~/Dropbox/org/gtd/diary.org") "* %?\n%U\n")
+                                ("h" "habit" entry (file "~/Dropbox/org/gtd/inbox.org")
+                                 "* TODO %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit \n:END:\n%U\n")
+                                ("n" "Note" entry (file+headline "~/Dropbox/org/gtd/inbox.org" "Notes") "* %? :NOTE:\n%U\n"))))
+#+END_SRC
+
+**** Ignore scheduled headlines and deadlines in the global todo list
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (setq org-agenda-todo-ignore-scheduled t)
+  (setq org-agenda-todo-ignore-deadlines t))
+#+END_SRC
+
 *** Turn off autocomplete
 #+begin_src emacs-lisp
 (remove-hook 'org-mode-hook #'auto-fill-mode)
